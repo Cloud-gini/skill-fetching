@@ -24,7 +24,8 @@ fetch(url)
 
 
 function main_fxn(){
-    let API_KEY = 'AIzaSyBS_k8f4vXceZ7GkOOLdVCO3eZy3KKgPH0';
+    //let API_KEY = 'AIzaSyBS_k8f4vXceZ7GkOOLdVCO3eZy3KKgPH0';
+    let API_KEY = 'AIzaSyD6iUJ9tpIF0EDrrnoJ_OCRmyeMkBOj_6k' ;
     let query = document.getElementById('skill_selector').value + 'One Shot';
     let url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&part=snippet&type=video&q=${encodeURIComponent(query)}&videoDuration=long&maxResults=5`;
 
