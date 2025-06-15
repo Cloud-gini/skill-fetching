@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youtube Course Recommendor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Roboto:ital,wght@0,100..900;1,100..900&     display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main>
+        <div class="card">
+            <div class="heading">
+                <h1>YouTube Course Recommendor</h1>
+            </div>
+            <div class="search_body">
+                <h3>What Do You Want to Learn Today?</h3>
+                <div class="searchbox">
+                    <input type="text"  placeholder="Enter Skill you want to learn! " id="skill_selector">
+                    <button class="search-btn" onclick='main_fxn()'>Search!</button> 
+                </div>
+            </div>
+            <div id="results"></div>
+            <script src="script.js"></script> 
+        </div>
+    </main>
+</body>
+</html>

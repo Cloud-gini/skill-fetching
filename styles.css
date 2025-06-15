@@ -1,0 +1,94 @@
+*{
+    padding: 0;
+    margin : 0 ;
+    box-sizing: border-box;
+    font-family: "Roboto","EB Garamond", sans-serif;
+}
+main{
+    width: 100vw;
+    height: 100vh;
+    padding: 3%;
+    box-sizing: border-box;
+}
+.card{
+    height: 100%;
+    width: 100% ;
+    background-color: #a59df2;
+    border-radius: 2.5%;
+    box-shadow: 3px  3px 8px;
+    overflow-y:auto  ;
+}
+.heading{
+    width: 100% ;
+    font-size: x-large;
+    font-weight: bolder ;
+    color: rgb(235, 231, 219); /* Same as #a59df2cc */
+    text-align: center;
+    padding-top: 2%;
+}
+.search_body{
+    margin-top: 1% ;
+    text-align: center;
+    color : #282c34 ;
+}
+.search_body h3{
+    font-size: x-large;
+    font-weight: bold;
+}
+.searchbox{
+    margin-top: 0.8%;
+}
+.searchbox input{
+    width: 18% ;
+}
+#results{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1% ;
+    gap: 16px; /* spacing between items */
+    overflow: visible;
+    justify-content: space-evenly;
+}
+#results div{
+    flex: 1 1 20%;
+    max-width: 30% ;   
+    overflow: auto;
+    background-color:#517b94c0 ;
+    padding: 1.5%;
+    border: 1px solid whitesmoke;
+    border-radius: 4%;
+}
+#results div a{
+    text-decoration: none;
+    color: #ecf8fd;
+    text-align: center;
+    font-family: "EB Garamond", 'Roboto' , sans-serif;
+}
+.thumbnailImg{
+    width: 100%;
+}
+#results div:hover{
+    transition-duration: 0.6s;
+    transition-timing-function: ease-in;
+    transform: scale(1.3,1.3) ;
+    border-radius: 8%;
+    border: 3px solid whitesmoke;
+    background-color:#517b94 ;
+}
+
+#skill_selector{
+    padding: 20px;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 5px;
+}
+
+.search-btn{
+    padding: 20px 40px;
+    color: white;
+    background-color: #517b94;
+    border: none;
+    border-radius: 5px;
+
+}
