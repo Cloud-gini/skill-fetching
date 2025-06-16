@@ -21,39 +21,67 @@ fetch(url)
     console.error("Error fetching YouTube data:", err);
   });
 */
+function main_fxn() {
+  let API_KEY = 'AIzaSyD6iUJ9tpIF0EDrrnoJ_OCRmyeMkBOj_6k';
+  let query = document.getElementById('skill_selector').value + ' One Shot';
+  let url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&part=snippet&type=video&q=${encodeURIComponent(query)}&videoDuration=long&maxResults=5`;
 
-
-function main_fxn(){
-    //let API_KEY = 'AIzaSyBS_k8f4vXceZ7GkOOLdVCO3eZy3KKgPH0';
-    let API_KEY = 'AIzaSyD6iUJ9tpIF0EDrrnoJ_OCRmyeMkBOj_6k' ;
-    let query = document.getElementById('skill_selector').value + 'One Shot';
-    let url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&part=snippet&type=video&q=${encodeURIComponent(query)}&videoDuration=long&maxResults=5`;
-
-    fetch(url)
+  fetch(url)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json();  // Convert response to JSON
+      return response.json();
     })
     .then((data) => {
-        let resultsDiv = document.getElementById("results");
-        resultsDiv.innerHTML = "";  // Clear old results
+      let resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = "";  // Clear old results
 
-        data.items.forEach((item) => {
+      data.items.forEach((item) => {
         let title = item.snippet.title;
         let videoId = item.id.videoId;
         let videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
-        let thumbnailUrl = item.snippet.thumbnails.high.url; 
+        let thumbnailUrl = item.snippet.thumbnails.high.url;
 
-        // Create a paragraph with clickable link
+        // Create a container for the video + skills
         let videoDiv = document.createElement("div");
-        videoDiv.innerHTML = `<a href="${videoUrl}" target="_blank"><img class ='thumbnailImg' src="${thumbnailUrl}" alt="${title}"><br><p>${title}</p></a>`; 
+        videoDiv.innerHTML = `
+          <a href="${videoUrl}" target="_blank">
+            <img class="thumbnailImg" src="${thumbnailUrl}" alt="${title}">
+            <br><p>${title}</p>
+          </a>
+          <p><strong>Skills:</strong> <span id="skills-${videoId}">Loading...</span></p>
+        `;
 
-        resultsDiv.appendChild(videoDiv) ;
+        resultsDiv.appendChild(videoDiv);
+
+        // 🔁 Call Flask backend for skill analysis
+        fetch("http://127.0.0.1:5000/get-skills", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ videoId: videoId })
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          const skillsEl = document.getElementById(`skills-${videoId}`);
+          if (data.skills) {
+            skillsEl.innerText = data.skills.join(", ");
+          } else {
+            skillsEl.innerText = "No skills found.";
+          }
+        })
+        .catch((err) => {
+          const skillsEl = document.getElementById(`skills-${videoId}`);
+          skillsEl.innerText = "Error fetching skills.";
+          console.error(err);
+        });
       });
     })
     .catch((error) => {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching video data:", error);
     });
 }
+
+
