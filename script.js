@@ -24,7 +24,8 @@ fetch(url)
 function main_fxn() {
   let API_KEY = 'AIzaSyD6iUJ9tpIF0EDrrnoJ_OCRmyeMkBOj_6k';
   let query = document.getElementById('skill_selector').value + ' One Shot';
-  let url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&part=snippet&type=video&q=${encodeURIComponent(query)}&videoDuration=long&maxResults=5`;
+  //let url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&part=snippet&type=video&q=${encodeURIComponent(query)}&videoDuration=long&maxResults=5`;
+let url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&part=snippet&type=video&q=${encodeURIComponent(query)}&videoDuration=long&maxResults=20`;
 
   fetch(url)
     .then((response) => {
@@ -64,14 +65,30 @@ function main_fxn() {
           body: JSON.stringify({ videoId: videoId })
         })
         .then((res) => res.json())
+       // .then((data) => {
+         // const skillsEl = document.getElementById(`skills-${videoId}`);
+          //if (data.skills) {
+            //skillsEl.innerText = data.skills.join(", ");
+          //} else {
+            //skillsEl.innerText = "No skills found.";
+          //}
+        //})
         .then((data) => {
-          const skillsEl = document.getElementById(`skills-${videoId}`);
-          if (data.skills) {
-            skillsEl.innerText = data.skills.join(", ");
-          } else {
-            skillsEl.innerText = "No skills found.";
-          }
-        })
+  const skillsEl = document.getElementById(`skills-${videoId}`);
+  
+  if (data.hasTranscript === false) {
+    // 🔥 Remove video block from DOM if no transcript
+    skillsEl.closest("div").remove();
+    return;
+  }
+
+  if (data.skills && data.skills.length > 0) {
+    skillsEl.innerText = data.skills.join(", ");
+  } else {
+    skillsEl.innerText = "No skills found.";
+  }
+})
+
         .catch((err) => {
           const skillsEl = document.getElementById(`skills-${videoId}`);
           skillsEl.innerText = "Error fetching skills.";

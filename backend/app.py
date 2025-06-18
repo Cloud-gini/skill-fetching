@@ -26,6 +26,7 @@
 
 from flask import Flask, request, jsonify
 from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api._errors import TranscriptsDisabled, NoTranscriptFound
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -41,18 +42,20 @@ def get_skills():
         full_text = " ".join([entry['text'] for entry in transcript])
 
         subskills = [
-    "variables", "lists", "tuples", "functions", "methods", "loops",
-    "for loop", "while loop", "object oriented", "classes", "inheritance", "recursion"
-]
+            "variables", "lists", "tuples", "functions", "methods", "loops",
+            "for loop", "while loop", "object oriented", "classes", "inheritance", "recursion"
+        ]
 
         found = [skill for skill in subskills if skill.lower() in full_text.lower()]
 
-        return jsonify({'skills': found})
+        return jsonify({'skills': found, 'hasTranscript': True})
+
+    except (TranscriptsDisabled, NoTranscriptFound):
+        return jsonify({'skills': [], 'hasTranscript': False})
+
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
-# 🧨 THE MAGIC PIECE THAT’S LIKELY MISSING:
 if __name__ == '__main__':
     print("Flask is running on http://127.0.0.1:5000/")
     app.run(debug=True)
-
